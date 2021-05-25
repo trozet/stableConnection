@@ -18,9 +18,12 @@ file to include your image tag as well as the target IP as a script argument.
 
 ### Verifying success
 
-The script will attempt 3 times to send arp request/receive response, and have 30 successful pings over 30
-seconds. The job should complete and you should see some type of logging from the pod indicating the 
-connection became stable:
+The script will attempt 3 times to:
+ - send arp request/receive response 
+ - Complete 30 successful pings over 30
+ - If these steps above fail, the script will wait 5 seconds and iterate the next loop
+
+Sample output:
 
 ```
 --- 9.9.9.9 ping statistics ---
@@ -30,3 +33,9 @@ connection not yet stable to:  9.9.9.9
 connection is stable over 30 seconds, after  2  tries
 
 ```
+
+The script works by sending an ARP request first. This allows the br-ext ovn-kube bridge to
+forward an ARP request to the external gateway. This ARP trigger makes the external gateway
+send back a response which allows br-ext to build a flow to allow traffic from the pod (i.e. the pings).
+Once the ARP is complete, pinging over 30 seconds (the maximum flow resync window) verifies the learned
+flow is not being removed and that the connection is stable.
