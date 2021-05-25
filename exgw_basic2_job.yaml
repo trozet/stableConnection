@@ -1,0 +1,25 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: exgw2
+  name: pod2
+  labels:
+    role: webserver
+    pod-name: client
+spec:
+  template:
+    spec:
+      containers:
+      - name: pod1
+        image: docker.io/aussie4005/centos:stableConn
+        command:
+        #- /sbin/init
+        #- /usr/bin/ping
+        - /usr/bin/python3
+        args: ["/root/waitForExGw.py","9.9.9.9"]
+        imagePullPolicy: Always
+      restartPolicy: Never
+  backoffLimit: 4      
+      #  nodeSelector:
+#    use: this

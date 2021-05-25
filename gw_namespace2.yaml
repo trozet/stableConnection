@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: exgw2
+  annotations:
+    k8s.ovn.org/hybrid-overlay-external-gw: 9.9.9.9
+    k8s.ovn.org/hybrid-overlay-vtep: 172.18.0.4
