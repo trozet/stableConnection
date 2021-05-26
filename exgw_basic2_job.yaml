@@ -17,7 +17,7 @@ spec:
         #- /sbin/init
         #- /usr/bin/ping
         - /usr/bin/python3
-        args: ["/root/waitForExGw.py","9.9.9.9"]
+        args: ["/root/waitForExGw.py","9.9.9.9", "http"]
         imagePullPolicy: Always
       restartPolicy: Never
   backoffLimit: 4      
